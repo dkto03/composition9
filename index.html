@@ -1,133 +1,46 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desktop</title>
+  <title>Log In</title>
   <link rel="stylesheet" href="style.css">
   <style>
     body {
       background: url('img/background.jpeg') no-repeat center center fixed;
       background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       min-height: 100vh;
       margin: 0;
-      overflow: hidden; /* Prevents scrollbars during dragging */
-      user-select: none; /* Prevents text selection while dragging */
-    }
-    
-    .app {
-      position: absolute;
-      width: 105px;
-      height: 50px;
-      cursor: grab;
-      text-align: center;
-      transition: transform 0.1s;
-    }
-    
-    .app:active {
-      cursor: grabbing;
-      transform: scale(1.05);
-    }
-    
-    .app img {
-      width: 55px;
-      height: 50px;
-      pointer-events: none; /* Makes dragging smoother */
-    }
-    
-    .app-label {
-      color: white;
-      text-shadow: 1px 1px 3px black;
-      font-family: Arial;
-      font-size: 12px;
-      margin-top: 5px;
-      pointer-events: none;
     }
   </style>
 </head>
-
 <body>
-
-  <!-- Draggable Apps -->
-  <div class="app" style="left: 5px; top: 50px;">
-    <img src="img/internet-icon.png" alt="App 1">
-    <div class="app-label">earth explorer</div>
-  </div>
-  
-  <div class="app" style="left: 5px; top: 150px;">
-    <img src="img/pink-folder.png" alt="App 2">
-    <div class="app-label">pink</div>
-  </div>
-
-  <div class="app" style="left: 5px; top: 250px;">
-    <img src="img/yellow-folder.png" alt="App 3">
-    <div class="app-label">yellow</div>
-  </div>
-
-  <div class="app" style="left: 5px; top: 350px;">
-    <img src="img/purple-folder.png" alt="App 3">
-    <div class="app-label">purple</div>
-  </div>
-
-  <div class="app" style="left: 5px; top: 450px;">
-    <img src="img/black-folder.png" alt="App 3">
-    <div class="app-label">black</div>
-  </div>
-
-  <div class="app" style="left: 500px; top: 250px;">
-    <img src="img/paper.png" alt="App 3">
-    <div class="app-label">document</div>
-  </div>
-
-  <!-- Nav Bar -->
-  <div class="nav-bar" id="nav-bar">
-    <div class="nav-tabs" id="nav-tabs">
-      <img src="img/terminal.png" alt="terminal in navigation bar" height="35px">
-      <img src="img/int - profile.png" alt="internet - my profile tab in navigation bar">
-      <img src="img/file tab.png" alt="my files file tab in navigation bar">
-    </div>
-    <div class="blue-wifi">
-      <img src="img/bluetooth-wifi.png" alt="bluetooth and wifi icons in the navigation bar">
-    </div>
-  </div>
-  
-
-  <!-- Notification -->
-  <div class="notification" id="notification">
-    <a href="email.html"><img src="img/mail-notif.png" alt="New Email"></a>
+  <div class="login-box">
+    <h2>yen_1234</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">log in</button>
   </div>
 
   <script>
-    // Make apps draggable
-    document.querySelectorAll('.app').forEach(app => {
-      let offsetX, offsetY;
-      
-      app.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        
-        // Get initial position
-        offsetX = e.clientX - app.getBoundingClientRect().left;
-        offsetY = e.clientY - app.getBoundingClientRect().top;
-        
-        // Move app
-        function moveApp(e) {
-          app.style.left = (e.clientX - offsetX) + 'px';
-          app.style.top = (e.clientY - offsetY) + 'px';
-        }
-        
-        document.addEventListener('mousemove', moveApp);
-        
-        // Stop dragging
-        document.addEventListener('mouseup', () => {
-          document.removeEventListener('mousemove', moveApp);
-        }, { once: true });
-      });
-    });
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
 
-    // Notification (existing code)
-    setTimeout(() => {
-      document.getElementById('notification').style.display = 'block';
-    }, 3000);
+      // Hardcoded username and password
+      const correctUsername = "yen";
+      const correctPassword = "1234";
+
+      if (username === correctUsername && password === correctPassword) {
+        window.location.href = 'index.html'; // Redirect to the index page
+      } else {
+        alert('Incorrect username or password. Try again.');
+      }
+    }
   </script>
 </body>
 </html>
