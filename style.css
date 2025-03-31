@@ -1,0 +1,258 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+  
+/* ===== SPLASH PAGE SPECIFIC STYLES ===== */
+.login-box {
+  background-color: #aac9ff;
+  padding: 30px;
+  border: 2px solid #5d6bff;
+  border-radius: 15px;
+  box-shadow: 3px 3px 10px rgba(126, 133, 223, 0.3);
+  text-align: center;
+  width: 300px;
+  margin: 20px;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  color: #2a3a7a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.login-box input {
+  display: block;
+  margin: 15px auto;
+  padding: 10px;
+  width: 80%;
+  border: 1px solid #5d6bff;
+  border-radius: 5px;
+}
+
+.login-box button {
+  background-color: #ffffff;
+  border: 2px solid #5d6bff;
+  border-radius: 5px;
+  padding: 8px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.login-box button:hover {
+  background-color: #5d6bff;
+  color: white;
+}
+  
+  /* Desktop Container */
+.desktop {
+  flex: 1;
+  display: flex;
+  padding: 20px;
+  justify-content: flex-start; /* Align content to the left */
+  align-items: flex-start; /* Align content to the top */
+}
+  
+/* Notification Styles */
+.notification {
+  position: fixed;
+  bottom: 60px;
+  right: 0%;
+  display: none;
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.notification:hover {
+  transform: scale(1.05); /* Subtle hover effect */
+}
+
+.notification img {
+  width: 200px; 
+  height: auto;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.3)); /* Soft shadow */
+}
+
+/* ===== NAV BAR STYLES ===== */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px; /* Fixed height */
+  background-color: #5d6bff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 15px;
+  padding-left: 15px;
+  height: 100%;
+  align-items: center;
+}
+
+.blue-wifi {
+  position: relative; /* Changed to work within nav-bar */
+  padding-right: 15px;
+  padding-left: 15px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.blue-wifi img {
+  height: 30px;
+  width: auto;
+}
+
+/* Prevent notification from appearing under nav bar */
+.notification {
+  z-index: 1001;
+}
+
+/* XP-style animation */
+@keyframes slideIn {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.notification {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+  .click-box {
+    position: fixed;
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    cursor: pointer;
+    z-index: 100; /* Ensures it's above other content */
+    opacity: 0; /* Makes it invisible */
+  }
+  
+  .top-left {
+    top: 15%;
+    left: 0%;
+    height: 36%;
+    width: 5%;
+  }
+  
+  .bottom-right {
+    bottom: 2%;
+    right: 0%;
+    height: 38%;
+    width: 5%;
+  }
+  
+  .click-box:hover {
+    opacity: 0.5;
+    background-color: rgb(0, 24, 118);
+  }
+
+/* ===== EMAIL ===== */
+.email {
+  height: 100vh;
+  background: linear-gradient(to bottom, #FFFFFF 50%, #E1F0FE 100%);
+  position: relative; /* Needed for absolute positioning of bubbles */
+}
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10; /* Ensure toolbar stays above other content */
+}
+
+.toolbar img {
+  width: 100%;
+  height: auto;
+}
+
+.mail3 {
+  position: relative; /* This is essential for absolute positioning inside */
+  text-align: center;
+  padding-top: 8%;
+  width: 100%; /* Add this */
+  height: auto; /* Add this */
+}
+
+.mail3 img {
+  width: 65%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.email-bubble {
+  position: absolute;
+  z-index: 2;
+  width: 48%;
+  
+  top: 40%;   /* Move up/down */
+  left: 31.5%;  /* Move left/right */
+}
+
+.email-bubble img {
+  width: 100%; 
+  height: auto;
+}
+
+.invisible-clickbox {
+  position: absolute;
+  width: 8%; /* Match your bubble's clickable area */
+  height: 3%;
+  background: transparent;
+  cursor: pointer;
+  z-index: 10; /* Above other elements */
+  
+  /* Position over your bubble */
+  top: 45.5%;    /* Adjust to match bubble position */
+  left: 32.5%;   /* Adjust to match bubble position */
+  
+  /* Optional: Visual feedback */
+  transition: background 0.2s;
+}
+
+.invisible-clickbox:hover {
+  background: rgba(255, 0, 0, 0.532);
+}
+
+/* ===== COMPOSITION9 ===== */
+
+.compo9 {
+  background: black;
+  color: red;
+  padding: 5%;
+  font-size: larger;
+}
+
+.comp9-start {
+  padding-left: 50%;
+  padding-top: 15%;
+  font-size: large;
+}
+
+a {
+  text-decoration: none;
+  color: red;
+}
+
+/* ===== BASEMENT ===== */
+
+.basement {
+  background: black ;
+}

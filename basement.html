@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basement</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: url('img/blue-chair.png') no-repeat center center fixed;
+      background-size: 100%;
+      transition: background-image 0.3s ease;
+      background-color: black;
+    }
+    
+    body.left-door-hover {
+      background-image: url('img/basement-up.png');
+    }
+    
+    body.right-door-hover {
+      background-image: url('img/basement-down.png');
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- Hidden preload images -->
+  <div style="display:none;">
+    <img src="img/basement-up.png" alt="">
+    <img src="img/basement-down.png" alt="">
+  </div>
+
+  <!-- Left Door -->
+  <div class="click-box top-left" 
+       onmouseover="document.body.classList.add('left-door-hover')"
+       onmouseout="document.body.classList.remove('left-door-hover')"
+       onclick="window.location.href='basement-up.html'">
+  </div>
+  
+  <!-- Right Door -->
+  <div class="click-box bottom-right" 
+       onmouseover="document.body.classList.add('right-door-hover')"
+       onmouseout="document.body.classList.remove('right-door-hover')"
+       onclick="window.location.href='basement-down.html'">
+  </div>
+
+  <!-- JavaScript preloader for extra reliability -->
+  <script>
+    window.onload = function() {
+      const images = [
+        'img/basement-up.png',
+        'img/basement-down.png'
+      ];
+      
+      images.forEach(img => {
+        new Image().src = img;
+      });
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: url('img/background.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>yen_1234</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">log in</button>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Hardcoded username and password
+      const correctUsername = "yen";
+      const correctPassword = "1234";
+
+      if (username === correctUsername && password === correctPassword) {
+        window.location.href = 'index.html'; // Redirect to the index page
+      } else {
+        alert('Incorrect username or password. Try again.');
+      }
+    }
+  </script>
+</body>
+</html>
