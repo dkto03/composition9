@@ -5,58 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Basement</title>
   <link rel="stylesheet" href="style.css">
+  
   <style>
+  
     body {
-      background: url('img/blue-chair.png') no-repeat center center fixed;
-      background-size: 100%;
+      background: url('img/comp-home.png') no-repeat center center fixed;
+      background-size: cover;
       transition: background-image 0.3s ease;
       background-color: black;
     }
     
-    body.left-door-hover {
-      background-image: url('img/basement-up.png');
+    body.door-hover {
+      background-image: url('img/comp-door-open.png') !important;
     }
     
-    body.right-door-hover {
-      background-image: url('img/basement-down.png');
+    body.trap-hover {
+      background-image: url('img/comp-trap-open.png') !important;
     }
-  </style>
 
+  </style>
+  
 </head>
 
 <body>
-  <!-- Hidden preload images -->
-  <div style="display:none;">
-    <img src="img/basement-up.png" alt="">
-    <img src="img/basement-down.png" alt="">
-  </div>
-
-  <!-- Left Door -->
-  <div class="click-box top-left" 
-       onmouseover="document.body.classList.add('left-door-hover')"
-       onmouseout="document.body.classList.remove('left-door-hover')"
-       onclick="window.location.href='basement-up.html'">
+  <!-- Door Box -->
+  <div class="click-box door-box top-center" 
+       onmouseover="showEnterText(event, 'door')"
+       onmouseout="hideEnterText('door')"
+       onclick="window.location.href='blue-chair.html'">
   </div>
   
-  <!-- Right Door -->
-  <div class="click-box bottom-right" 
-       onmouseover="document.body.classList.add('right-door-hover')"
-       onmouseout="document.body.classList.remove('right-door-hover')"
-       onclick="window.location.href='basement-down.html'">
+  <!-- Trap Box -->
+  <div class="click-box trap-box bottom-right" 
+       onmouseover="showEnterText(event, 'trap')"
+       onmouseout="hideEnterText('trap')"
+       onclick="window.location.href='trapdoor.html'">
   </div>
 
-  <!-- JavaScript preloader for extra reliability -->
+  <!-- Floating ENTER texts -->
+  <div id="enter-door" class="enter-text door-text">ENTER</div>
+  <div id="enter-trap" class="enter-text trap-text">ENTER</div>
+
   <script>
-    window.onload = function() {
-      const images = [
-        'img/basement-up.png',
-        'img/basement-down.png'
-      ];
+    function showEnterText(e, type) {
+      const textEl = document.getElementById(`enter-${type}`);
+      textEl.style.opacity = '1';
+      textEl.style.left = `${e.clientX + 15}px`;
+      textEl.style.top = `${e.clientY + 15}px`;
+      document.addEventListener('mousemove', (e) => moveEnterText(e, type));
       
-      images.forEach(img => {
-        new Image().src = img;
-      });
-    };
+      // Trigger background change
+      document.body.classList.add(`${type}-hover`);
+    }
+
+    function hideEnterText(type) {
+      document.getElementById(`enter-${type}`).style.opacity = '0';
+      document.removeEventListener('mousemove', moveEnterText);
+      document.body.classList.remove(`${type}-hover`);
+    }
+
+    function moveEnterText(e, type) {
+      const textEl = document.getElementById(`enter-${type}`);
+      textEl.style.left = `${e.clientX + 15}px`;
+      textEl.style.top = `${e.clientY + 15}px`;
+    }
   </script>
 </body>
 </html>
