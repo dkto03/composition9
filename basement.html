@@ -1,92 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Basement</title>
-  <link rel="stylesheet" href="style.css">
-  
-  <style>
-    body {
-      background: url('img/comp-home.png') no-repeat center center fixed;
-      background-size: cover;
-      transition: background-image 0.3s ease;
-      background-color: black;
-    }
-    
-    body.door-hover {
-      background-image: url('img/comp-door-open.png') !important;
-    }
-    
-    body.trap-hover {
-      background-image: url('img/comp-trap-open.png') !important;
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basement</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: url('img/comp-home.png') no-repeat center center fixed;
+            background-size: cover;
+            transition: background-image 0.3s ease;
+            background-color: black;
+        }
+        
+        body.door-hover {
+            background-image: url('img/comp-door-open.png') !important;
+        }
+        
+        body.trap-hover {
+            background-image: url('img/comp-trap-open.png') !important;
+        }
+    </style>
 </head>
-
 <body>
-  <!-- Door Box -->
-  <div class="click-box door-box top-center" 
-       onmouseover="showEnterText(event, 'door')"
-       onmouseout="hideEnterText('door')"
-       onclick="window.location.href='blue-chair.html'">
-  </div>
-  
-  <!-- Trap Box -->
-  <div class="click-box trap-box bottom-right" 
-       onmouseover="showEnterText(event, 'trap')"
-       onmouseout="hideEnterText('trap')"
-       onclick="window.location.href='trapdoor.html'">
-  </div>
+    <!-- Hidden Audio Elements -->
+    <audio id="doorOpenSound" src="audio/open-door.wav" preload="auto"></audio>
+    <audio id="doorCloseSound" src="audio/close-door.wav" preload="auto"></audio>
 
-  <!-- Ladder Box -->
-  <div class="click-box ladder-box bottom-left"
-       onmouseover="showActionText(event, 'ladder')"
-       onmouseout="hideActionText('ladder')"
-       onclick="window.location.href='up-ladder.html'">
-  </div>
+    <!-- Door Box -->
+    <div class="click-box door-box top-center" 
+         onmouseover="doorHover(true)"
+         onmouseout="doorHover(false)"
+         onclick="window.location.href='blue-chair.html'">
+    </div>
+    
+    <!-- Trap Box -->
+    <div class="click-box trap-box bottom-right" 
+         onmouseover="trapHover(true)"
+         onmouseout="trapHover(false)"
+         onclick="window.location.href='trapdoor.html'">
+    </div>
 
-  <!-- Floating Text Elements -->
-  <div id="enter-door" class="action-text door-text">ENTER</div>
-  <div id="enter-trap" class="action-text trap-text">ENTER</div>
-  <div id="action-ladder" class="action-text ladder-text">PICK UP</div>
+    <!-- Floating ENTER texts -->
+    <div id="enter-door" class="enter-text door-text">ENTER</div>
+    <div id="enter-trap" class="enter-text trap-text">ENTER</div>
 
-  <script>
-    // Shared functions for all interactive elements
-    function showEnterText(e, type) {
-      const textEl = document.getElementById(`enter-${type}`);
-      textEl.style.opacity = '1';
-      textEl.style.left = `${e.clientX + 15}px`;
-      textEl.style.top = `${e.clientY + 15}px`;
-      document.addEventListener('mousemove', (e) => moveText(e, `enter-${type}`));
-      document.body.classList.add(`${type}-hover`);
-    }
-
-    function showActionText(e, type) {
-      const textEl = document.getElementById(`action-${type}`);
-      textEl.style.opacity = '1';
-      textEl.style.left = `${e.clientX + 15}px`;
-      textEl.style.top = `${e.clientY + 15}px`;
-      document.addEventListener('mousemove', (e) => moveText(e, `action-${type}`));
-    }
-
-    function hideEnterText(type) {
-      document.getElementById(`enter-${type}`).style.opacity = '0';
-      document.removeEventListener('mousemove', moveText);
-      document.body.classList.remove(`${type}-hover`);
-    }
-
-    function hideActionText(type) {
-      document.getElementById(`action-${type}`).style.opacity = '0';
-      document.removeEventListener('mousemove', moveText);
-    }
-
-    function moveText(e, elementId) {
-      const textEl = document.getElementById(elementId);
-      textEl.style.left = `${e.clientX + 15}px`;
-      textEl.style.top = `${e.clientY + 15}px`;
-    }
-  </script>
+    <script>
+        // Audio elements
+        const doorOpenSound = document.getElementById('doorOpenSound');
+        const doorCloseSound = document.getElementById('doorCloseSound');
+        
+        // Door hover effects
+        function doorHover(isHovering) {
+            const textEl = document.getElementById('enter-door');
+            
+            if (isHovering) {
+                // Show text and play open sound
+                textEl.style.opacity = '1';
+                document.body.classList.add('door-hover');
+                doorOpenSound.currentTime = 0; // Rewind sound
+                doorOpenSound.play();
+                
+                // Track mouse movement
+                document.addEventListener('mousemove', (e) => moveText(e, 'enter-door'));
+            } else {
+                // Hide text and play close sound
+                textEl.style.opacity = '0';
+                document.body.classList.remove('door-hover');
+                doorCloseSound.currentTime = 0; // Rewind sound
+                doorCloseSound.play();
+                
+                // Stop tracking mouse
+                document.removeEventListener('mousemove', moveText);
+            }
+        }
+        
+        // Trap hover effects (same as door but with trap sounds)
+        function trapHover(isHovering) {
+            const textEl = document.getElementById('enter-trap');
+            
+            if (isHovering) {
+                textEl.style.opacity = '1';
+                document.body.classList.add('trap-hover');
+                doorOpenSound.currentTime = 0;
+                doorOpenSound.play();
+                document.addEventListener('mousemove', (e) => moveText(e, 'enter-trap'));
+            } else {
+                textEl.style.opacity = '0';
+                document.body.classList.remove('trap-hover');
+                doorCloseSound.currentTime = 0;
+                doorCloseSound.play();
+                document.removeEventListener('mousemove', moveText);
+            }
+        }
+        
+        function moveText(e, elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.left = `${e.clientX + 15}px`;
+            textEl.style.top = `${e.clientY + 15}px`;
+        }
+    </script>
 </body>
 </html>
