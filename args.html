@@ -4,10 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>args</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            margin: 0;
+            height: auto;
+            width: auto;
+            overflow-x: hidden;
+        }
+        
+        h2 {
+            color: #ff0000;
+            text-shadow: 0 0 5px #ff0000;
+            position: relative;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        a {
+            color: #00ff00;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+            color: #ff0000;
+        }
+        
+        /* Flickering effects */
+        .flicker {
+            animation: flicker 0.1s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 0.99;
+            }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.4;
+            }
+        }
+        
+        /* Glitch effects */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: auto;
+            width: auto;
+            background: black;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-2 2s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(61px, 9999px, 52px, 0); }
+            20% { clip: rect(33px, 9999px, 14px, 0); }
+            40% { clip: rect(43px, 9999px, 37px, 0); }
+            60% { clip: rect(23px, 9999px, 49px, 0); }
+            80% { clip: rect(54px, 9999px, 11px, 0); }
+            100% { clip: rect(9px, 9999px, 98px, 0); }
+        }
+        
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(25px, 9999px, 99px, 0); }
+            20% { clip: rect(3px, 9999px, 6px, 0); }
+            40% { clip: rect(33px, 9999px, 29px, 0); }
+            60% { clip: rect(92px, 9999px, 98px, 0); }
+            80% { clip: rect(73px, 9999px, 4px, 0); }
+            100% { clip: rect(61px, 9999px, 6px, 0); }
+        }
+        
+        /* Screen distortion */
+        .distortion {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: auto;
+            width: auto;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.7;
+        }
+        
+        /* Random static */
+        .static {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: auto;
+            width: auto;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABASURBVGhDY/j//z8DrmE0QkYjZDRCRiNkNEJGI2Q0QkYjZDRCRiNkNEJGI2Q0QkYjZDRCRiNkNEJGI2Q0QkYjBABNdQYVU5UjAgAAAABJRU5ErkJggg==');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1001;
+            animation: static 0.2s infinite;
+        }
+        
+        @keyframes static {
+            0% { transform: translate(0,0); }
+            20% { transform: translate(-5px,5px); }
+            40% { transform: translate(-5px,-5px); }
+            60% { transform: translate(5px,5px); }
+            80% { transform: translate(5px,-5px); }
+            100% { transform: translate(0,0); }
+        }
+        
+        /* VHS effect */
+        .vhs-scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: auto;
+            width: auto;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 255, 0, 0.05) 0.5%,
+                transparent 1%
+            );
+            pointer-events: none;
+            z-index: 1002;
+        }
+        
+        /* Random glitch effect that triggers occasionally */
+        .glitch-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: auto;
+            width: auto;
+            background: black;
+            z-index: 999;
+            opacity: 0;
+        }
+    </style>
 </head>
 
-<body class="args">
+<body class="args flicker">
+    <!-- Visual effect layers -->
+    <div class="distortion"></div>
+    <div class="static"></div>
+    <div class="vhs-scanlines"></div>
+    <div class="glitch-effect" id="glitchEffect"></div>
+    
+    <h2 class="glitch" data-text="alternate reality games & analog horrors">alternate reality games & analog horrors</h2>
+
     <ul>
         <li>
             <a href="https://www.youtube.com/watch?v=P4yrKDNVnJg&list=PL8VgMAq33CQnlfRl_x3u29-8DEU72M09Q&ab_channel=PoocheeandPansy" target="_blank">pooche & pansy</a>
@@ -15,8 +188,85 @@
         <li>
             <a href="https://www.youtube.com/watch?v=zXB6zNWRDA0&list=PLeZKUcRGVFikwMH2QzAf0njk6s75M5H5O&index=1&ab_channel=DaisyBrown" target="_blank">daisy brown</a>
         </li>
+        
+        <li>
+            <a href="https://www.youtube.com/watch?v=tRDGhdMVEnM&ab_channel=NightMind" target="_blank">the sun vanished</a>
+        </li>
+        
+        <li>
+            <a href="https://www.youtube.com/watch?v=6e6RK8o1fcs&ab_channel=Petscop" target="_blank">petscop</a>
+        </li>
+        
+        <li>
+            <a href="https://www.youtube.com/watch?v=jQkM1T-8zSs&ab_channel=DadsTapes" target="_blank">my dad's tapes</a>
+        </li>
+        
+        <li>
+            <a href="https://www.youtube.com/@JackTorrance512/videos" target="_blank">jack torrance; found footage</a>
+        </li>
+
+        <li>
+            <a href="https://www.youtube.com/watch?v=93rwtMZxgrk&ab_channel=POSTcontent" target="_blank">postcontent</a>
+        </li>
+
+        <li>
+            <a href="https://www.youtube.com/@LOCAL58TV" target="_blank">local 58</a>
+        </li>
+
+        <li>
+            <a href="https://x.com/adamtotscomix/status/894582846907482113?lang=en" target="_blank">adam ellis</a>
+        </li>
     </ul>
 
+    <script>
+        // Random glitch effect
+        function triggerGlitch() {
+            const glitch = document.getElementById('glitchEffect');
+            glitch.style.opacity = '0.7';
+            glitch.style.background = `linear-gradient(${Math.random() * 360}deg, #ff00ff, #00ffff)`;
+            
+            // Random displacement
+            document.body.style.transform = `translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px)`;
+            
+            setTimeout(() => {
+                glitch.style.opacity = '0';
+                document.body.style.transform = 'translate(0, 0)';
+            }, 100 + Math.random() * 200);
+            
+            // Schedule next glitch
+            setTimeout(triggerGlitch, 2000 + Math.random() * 8000);
+        }
+        
+        // Start glitch effects after a delay
+        setTimeout(triggerGlitch, 3000);
+        
+        // Random color shifts
+        setInterval(() => {
+            const hue = Math.random() * 60 - 30; // -30 to 30 degree shift
+            document.documentElement.style.filter = `hue-rotate(${hue}deg)`;
+        }, 5000);
+        
+        // Text corruption effect
+        const links = document.querySelectorAll('a');
+        setInterval(() => {
+            if (Math.random() > 0.9) {
+                const randomLink = links[Math.floor(Math.random() * links.length)];
+                const originalText = randomLink.textContent;
+                const glitchChars = '!@#$%^&*()_+{}|:"<>?~`';
+                
+                // Corrupt some characters
+                let corrupted = originalText.split('').map(c => {
+                    return Math.random() > 0.8 ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : c;
+                }).join('');
+                
+                randomLink.textContent = corrupted;
+                
+                // Restore after delay
+                setTimeout(() => {
+                    randomLink.textContent = originalText;
+                }, 200 + Math.random() * 800);
+            }
+        }, 1000);
+    </script>
 </body>
-
 </html>

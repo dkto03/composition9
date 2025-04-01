@@ -6,7 +6,7 @@
   <title>Blue Chair Room</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
+ body {
       background: url('img/blue-chair.png') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
@@ -53,10 +53,7 @@
     }
     
     .back-box {
-      width: 15vw;
-      height: 20vh;
-      bottom: 10vh;
-      left: 10vw;
+      opacity: 0.5 !important; /* override the 0 opacity */
     }
     
     .inspect-box {
@@ -82,8 +79,10 @@
       padding: 5px 15px;
       border-radius: 20px;
     }
+    
   </style>
 </head>
+
 <body>
   <!-- Blinking overlay -->
   <div id="blinking-overlay" class="blinking-screen"></div>
