@@ -1,6 +1,38 @@
-@font-face {
-  font-family: 'Coders Crux';
-  src: url('data:font/truetype;charset=utf-8;base64,PASTE_BASE64_STRING_HERE') format('truetype');
+body, button, input, h1, h2, h3, div, a, 
+.login-box, .login-box h2, .login-box button, 
+.app-label, .enter-text, .compo9, .comp9-start {
+  font-family: 'Courier New', monospace !important;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+}
+
+/* === HORROR GAME AESTHETIC TWEAKS === */
+.compo9, .comp9-start {
+  color: #ff0000;
+  text-shadow: 0 0 5px #ff0000aa; /* Glitchy red glow */
+}
+
+.login-box, .enter-text {
+  text-shadow: 0 0 3px black; /* Readable but eerie */
+}
+
+.app-label {
+  color: white;
+  text-shadow: 1px 1px 3px black;
+}
+
+/* Glitchy text animation */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.compo9 h1, .comp9-start {
+  animation: glitch 0.5s infinite alternate;
 }
 
 /* ===== GLOBAL STYLES ===== */
