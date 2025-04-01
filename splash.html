@@ -15,6 +15,19 @@
       overflow: hidden; /* Prevents scrollbars during dragging */
       user-select: none; /* Prevents text selection while dragging */
     }
+    
+    /* Add notification animation */
+    .notification {
+      display: none;
+      position: fixed;
+      right: 20px;
+      top: -100px;
+      transition: top 0.5s ease-out;
+    }
+    
+    .notification.show {
+      top: 20px;
+    }
   </style>
 
 </head>
@@ -52,7 +65,7 @@
     <div class="app-label">document</div>
   </div>
 
-  <!-- nac=v bar -->
+  <!-- nav bar -->
   <div class="nav-bar" id="nav-bar">
     <div class="nav-tabs" id="nav-tabs">
       <img src="img/terminal.png" alt="terminal in navigation bar" height="35px">
@@ -69,6 +82,12 @@
   <div class="notification" id="notification">
     <a href="email.html"><img src="img/mail-notif.png" alt="New Email"></a>
   </div>
+
+  <!-- audio element for notification sound -->
+  <audio id="notificationSound" preload="auto">
+    <source src="audio/email-notif.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
   <script>
     // make apps draggable with assitance from AI
@@ -90,16 +109,39 @@
           
         document.addEventListener('mousemove', moveApp);
         
-        // Stop dragging
+        // stop dragging
         document.addEventListener('mouseup', () => {
           document.removeEventListener('mousemove', moveApp);
         }, { once: true });
       });
     });
 
+    // show notification with sound
     setTimeout(() => {
-      document.getElementById('notification').style.display = 'block';
+      const notification = document.getElementById('notification');
+      const notificationSound = document.getElementById('notificationSound');
+      
+      // display the notification
+      notification.style.display = 'block';
+      
+      // trigger the slide-in animation
+      setTimeout(() => {
+        notification.classList.add('show');
+        
+        // play the sound when animation starts
+        notificationSound.play().catch(e => {
+          console.log("Audio playback failed:", e);
+          // Some browsers require user interaction before playing audio
+          // We'll try again when user clicks anywhere
+          document.body.addEventListener('click', () => {
+            notificationSound.play();
+          }, { once: true });
+        });
+      }, 50); // Small delay to ensure display:block is applied first
     }, 3000);
+
   </script>
+
 </body>
+
 </html>
