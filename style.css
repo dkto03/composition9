@@ -536,3 +536,7 @@ a {
 a:hover {
   color:rgba(255, 0, 0, 0.424);
 }
+
+h2 #leave {
+  bottom: 0px;
+}

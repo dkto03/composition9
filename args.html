@@ -170,6 +170,64 @@
             z-index: 999;
             opacity: 0;
         }
+
+        /* Add these new styles for the leave button */
+        #leave-container {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+        }
+        
+        #leave-button {
+            color: #ff0000;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ff0000;
+            padding: 10px 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #leave-button:hover {
+            background-color: rgba(255, 0, 0, 0.2);
+            text-shadow: 0 0 5px #ff0000;
+        }
+        
+        /* Glitch effect for the button */
+        #leave-button::before, #leave-button::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 10px 30px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        #leave-button::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(24px, 450px, 16px, 0);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        
+        #leave-button::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(24px, 450px, 16px, 0);
+            animation: glitch-anim-2 2s infinite linear alternate-reverse;
+        }
+
     </style>
 </head>
 
@@ -218,6 +276,10 @@
             <a href="https://x.com/adamtotscomix/status/894582846907482113?lang=en" target="_blank">adam ellis</a>
         </li>
     </ul>
+
+    <div id="leave-container">
+        <a href="composition9.html" id="leave-button" data-text="LEAVE">LEAVE</a>
+    </div>
 
     <script>
         // random glitch effect
@@ -268,6 +330,16 @@
                 }, 200 + Math.random() * 800);
             }
         }, 1000);
+
+        document.getElementById('leave-button').addEventListener('mouseenter', function() {
+            // Optional: Add extra glitch effect on hover
+            this.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+        });
+        
+        document.getElementById('leave-button').addEventListener('mouseleave', function() {
+            this.style.transform = 'translate(0, 0)';
+        });
+
     </script>
     
 </body>
