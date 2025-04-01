@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blue Chair Room</title>
   <link rel="stylesheet" href="style.css">
+  
   <style>
- body {
+ 
+    body {
       background: url('img/blue-chair.png') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
@@ -14,7 +16,8 @@
       overflow: hidden;
     }
     
-    /* Blinking overlay */
+    /* animation assitance with AI, W3 school & BroCode */
+    /* blinking overlay */
     .blinking-screen {
       position: fixed;
       top: 0;
@@ -81,13 +84,14 @@
     }
     
   </style>
+
 </head>
 
 <body>
-  <!-- Blinking overlay -->
+  <!-- blinking overlay -->
   <div id="blinking-overlay" class="blinking-screen"></div>
 
-  <!-- Interactive Boxes -->
+  <!-- interactive boxes -->
   <div class="click-box back-box"
        onmouseover="showText(event, 'back-text')"
        onmouseout="hideText('back-text')"
@@ -100,28 +104,28 @@
        onclick="inspectChair()">
   </div>
 
-  <!-- Floating Texts -->
+  <!-- actions -->
   <div id="back-text" class="action-text">GO BACK</div>
   <div id="inspect-text" class="action-text">INSPECT</div>
 
-  <!-- Audio Elements -->
+  <!-- audio -->
   <audio id="staticSound" loop>
     <source src="audio/flickering-light.wav" type="audio/wav">
     <source src="audio/flickering-light.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // Check visit count
+    // check visit count
     let visitCount = localStorage.getItem('blueChairVisits') || 0;
     visitCount = parseInt(visitCount) + 1;
     localStorage.setItem('blueChairVisits', visitCount);
 
-    // Apply blinking effect only after first visit
+    // apply blinking effect only after first visit
     if (visitCount > 1) {
       const overlay = document.getElementById('blinking-overlay');
       overlay.classList.add('blinking-effect');
       
-      // Add occasional intense flashes
+      // add occasional intense flashes
       setInterval(() => {
         if (Math.random() > 0.7) {
           overlay.style.opacity = '0.9';
@@ -132,7 +136,7 @@
       }, 3000);
     }
 
-    // Start ambient sound
+    //start ambient sound
     window.addEventListener('load', () => {
       const silentSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
       silentSound.volume = 0;
@@ -143,14 +147,14 @@
       });
     });
 
-    // Inspect chair function
+    // inspect chair function
     function inspectChair() {
       if (confirm("Examine the blue chair closely?")) {
         window.location.href = 'https://www.youtube.com/watch?v=u0GPQpAbTyw&ab_channel=alantutorial';
       }
     }
 
-    // Text display functions
+    // text display functions
     function showText(e, elementId) {
       const textEl = document.getElementById(elementId);
       textEl.style.opacity = '1';
@@ -170,5 +174,7 @@
       textEl.style.top = `${e.clientY + 15}px`;
     }
   </script>
+
 </body>
+
 </html>

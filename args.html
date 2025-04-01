@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>args</title>
     <style>
+        /* AI slay, W3 schools, BroCode */
         body {
             background-color: #000;
             color: #fff;
@@ -43,7 +44,7 @@
             color: #ff0000;
         }
         
-        /* Flickering effects */
+        /* flickering effects */
         .flicker {
             animation: flicker 0.1s infinite alternate;
         }
@@ -57,7 +58,7 @@
             }
         }
         
-        /* Glitch effects */
+        /* glitch effects */
         .glitch {
             position: relative;
         }
@@ -104,7 +105,7 @@
             100% { clip: rect(61px, 9999px, 6px, 0); }
         }
         
-        /* Screen distortion */
+        /* screen distortion */
         .distortion {
             position: fixed;
             top: 0;
@@ -118,7 +119,7 @@
             opacity: 0.7;
         }
         
-        /* Random static */
+        /* random static */
         .static {
             position: fixed;
             top: 0;
@@ -158,7 +159,7 @@
             z-index: 1002;
         }
         
-        /* Random glitch effect that triggers occasionally */
+        /* random glitch effect that triggers occasionally */
         .glitch-effect {
             position: fixed;
             top: 0;
@@ -219,13 +220,13 @@
     </ul>
 
     <script>
-        // Random glitch effect
+        // random glitch effect
         function triggerGlitch() {
             const glitch = document.getElementById('glitchEffect');
             glitch.style.opacity = '0.7';
             glitch.style.background = `linear-gradient(${Math.random() * 360}deg, #ff00ff, #00ffff)`;
             
-            // Random displacement
+            // random displacement
             document.body.style.transform = `translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px)`;
             
             setTimeout(() => {
@@ -237,16 +238,16 @@
             setTimeout(triggerGlitch, 2000 + Math.random() * 8000);
         }
         
-        // Start glitch effects after a delay
+        // start glitch effects after a delay
         setTimeout(triggerGlitch, 3000);
         
-        // Random color shifts
+        // random color shifts
         setInterval(() => {
             const hue = Math.random() * 60 - 30; // -30 to 30 degree shift
             document.documentElement.style.filter = `hue-rotate(${hue}deg)`;
         }, 5000);
         
-        // Text corruption effect
+        // text corruption effect
         const links = document.querySelectorAll('a');
         setInterval(() => {
             if (Math.random() > 0.9) {
@@ -254,19 +255,21 @@
                 const originalText = randomLink.textContent;
                 const glitchChars = '!@#$%^&*()_+{}|:"<>?~`';
                 
-                // Corrupt some characters
+                // corrupt some characters
                 let corrupted = originalText.split('').map(c => {
                     return Math.random() > 0.8 ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : c;
                 }).join('');
                 
                 randomLink.textContent = corrupted;
                 
-                // Restore after delay
+                // restore after delay
                 setTimeout(() => {
                     randomLink.textContent = originalText;
                 }, 200 + Math.random() * 800);
             }
         }, 1000);
     </script>
+    
 </body>
+
 </html>

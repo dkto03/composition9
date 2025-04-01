@@ -1,3 +1,5 @@
+/* ==== many of the animations were assited by AI & resources such as W3 schools, Codecademy, BroCode, StackOverflow, and Reddit haha ==== */
+
 body, button, input, h1, h2, h3, div, a, 
 .login-box, .login-box h2, .login-box button, 
 .app-label, .enter-text, .compo9, .comp9-start {
@@ -534,4 +536,3 @@ a {
 a:hover {
   color:rgba(255, 0, 0, 0.424);
 }
-
