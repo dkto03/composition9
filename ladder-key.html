@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ladder Key</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: url('img/comp-ladder-key.png') no-repeat center center fixed;
+            background-size: cover;
+            background-color: black;
+        }
+        
+        /* Center the clickable area */
+        .key-box {
+            width: 15vw;
+            height: 20vh;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body class="key">
+    <!-- Key Box -->
+    <div class="click-box key-box"
+         onmouseover="showText(event, 'action-key')"
+         onmouseout="hideText('action-key')"
+         onclick="window.location.href='key-picked.html'"> <!-- Change this to your next page -->
+    </div>
+
+    <!-- Floating Text -->
+    <div id="action-key" class="action-text key-text">PICK UP</div>
+
+    <script>
+        function showText(e, elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.opacity = '1';
+            textEl.style.left = `${e.clientX + 15}px`;
+            textEl.style.top = `${e.clientY + 15}px`;
+            document.addEventListener('mousemove', (e) => moveText(e, elementId));
+        }
+
+        function hideText(elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.opacity = '0';
+            document.removeEventListener('mousemove', moveText);
+        }
+
+        function moveText(e, elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.left = `${e.clientX + 15}px`;
+            textEl.style.top = `${e.clientY + 15}px`;
+        }
+    </script>
+</body>
+</html>

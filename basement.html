@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="style.css">
   
   <style>
-  
     body {
       background: url('img/comp-home.png') no-repeat center center fixed;
       background-size: cover;
@@ -24,7 +23,6 @@
     }
 
   </style>
-  
 </head>
 
 <body>
@@ -42,30 +40,50 @@
        onclick="window.location.href='trapdoor.html'">
   </div>
 
-  <!-- Floating ENTER texts -->
-  <div id="enter-door" class="enter-text door-text">ENTER</div>
-  <div id="enter-trap" class="enter-text trap-text">ENTER</div>
+  <!-- Ladder Box -->
+  <div class="click-box ladder-box bottom-left"
+       onmouseover="showActionText(event, 'ladder')"
+       onmouseout="hideActionText('ladder')"
+       onclick="window.location.href='up-ladder.html'">
+  </div>
+
+  <!-- Floating Text Elements -->
+  <div id="enter-door" class="action-text door-text">ENTER</div>
+  <div id="enter-trap" class="action-text trap-text">ENTER</div>
+  <div id="action-ladder" class="action-text ladder-text">PICK UP</div>
 
   <script>
+    // Shared functions for all interactive elements
     function showEnterText(e, type) {
       const textEl = document.getElementById(`enter-${type}`);
       textEl.style.opacity = '1';
       textEl.style.left = `${e.clientX + 15}px`;
       textEl.style.top = `${e.clientY + 15}px`;
-      document.addEventListener('mousemove', (e) => moveEnterText(e, type));
-      
-      // Trigger background change
+      document.addEventListener('mousemove', (e) => moveText(e, `enter-${type}`));
       document.body.classList.add(`${type}-hover`);
+    }
+
+    function showActionText(e, type) {
+      const textEl = document.getElementById(`action-${type}`);
+      textEl.style.opacity = '1';
+      textEl.style.left = `${e.clientX + 15}px`;
+      textEl.style.top = `${e.clientY + 15}px`;
+      document.addEventListener('mousemove', (e) => moveText(e, `action-${type}`));
     }
 
     function hideEnterText(type) {
       document.getElementById(`enter-${type}`).style.opacity = '0';
-      document.removeEventListener('mousemove', moveEnterText);
+      document.removeEventListener('mousemove', moveText);
       document.body.classList.remove(`${type}-hover`);
     }
 
-    function moveEnterText(e, type) {
-      const textEl = document.getElementById(`enter-${type}`);
+    function hideActionText(type) {
+      document.getElementById(`action-${type}`).style.opacity = '0';
+      document.removeEventListener('mousemove', moveText);
+    }
+
+    function moveText(e, elementId) {
+      const textEl = document.getElementById(elementId);
       textEl.style.left = `${e.clientX + 15}px`;
       textEl.style.top = `${e.clientY + 15}px`;
     }

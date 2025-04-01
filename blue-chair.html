@@ -3,18 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Basement Up</title>
+  <title>Blue Chair Room</title>
   <link rel="stylesheet" href="style.css">
   <style>
     body {
       background: url('img/blue-chair.png') no-repeat center center fixed;
       background-size: cover;
     }
+    
+    /* Container for the blinking effect */
+    .page-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      animation: none;
+    }
+    
+    /* Blinking effect */
+    @keyframes creepy-blink {
+      0%, 100% { opacity: 1; }
+      10% { opacity: 0.8; }
+      20% { opacity: 0.3; }
+      30% { opacity: 0.9; }
+      40% { opacity: 0.2; }
+      50% { opacity: 1; }
+      60% { opacity: 0.7; }
+      70% { opacity: 0.4; }
+      80% { opacity: 0.9; }
+      90% { opacity: 0.1; }
+    }
+    
+    .blinking {
+      animation: creepy-blink 1.2s infinite;
+      background-color: rgba(38, 3, 3, 0.608); /* Adds to the blinking effect */
+    }
   </style>
 </head>
 <body>
-  <!-- Invisible Click Boxes -->
-  <div class="click-box top-left" onclick="window.location.href='blue-chair.html'"></div>
-  <div class="click-box bottom-right" onclick="window.location.href='basement.html'"></div>
+  <!-- Blinking container covers whole page -->
+  <div id="page-container" class="page-container">
+    <!-- All content goes here -->
+    <div class="click-box top-left" onclick="window.location.href='blue-chair.html'"></div>
+    <div class="click-box bottom-right" onclick="window.location.href='basement.html'"></div>
+
+    <div class="click-box back-box"
+         onmouseover="showBackText(event)"
+         onmouseout="hideBackText()"
+         onclick="window.location.href='up-ladder.html'">
+    </div>
+
+    <div id="back-text" class="back-text">GO BACK</div>
+  </div>
+    
+  <script>
+    // Check if this is a repeat visit
+    if (localStorage.getItem('visitedBlueChair')) {
+      const container = document.getElementById('page-container');
+      container.classList.add('blinking');
+      
+      // More intense random flashes
+      setInterval(() => {
+        if (Math.random() > 0.8) {
+          container.style.opacity = '0';
+          setTimeout(() => {
+            container.style.opacity = '1';
+          }, Math.random() * 200 + 50); // Random duration 50-250ms
+        }
+      }, 800);
+    } else {
+      localStorage.setItem('visitedBlueChair', 'true');
+    }
+
+    function showBackText(e) {
+      const textEl = document.getElementById('back-text');
+      textEl.style.opacity = '1';
+      updateTextPosition(e);
+      document.addEventListener('mousemove', updateTextPosition);
+    }
+    
+    function hideBackText() {
+      const textEl = document.getElementById('back-text');
+      textEl.style.opacity = '0';
+      document.removeEventListener('mousemove', updateTextPosition);
+    }
+    
+    function updateTextPosition(e) {
+      const textEl = document.getElementById('back-text');
+      textEl.style.left = `${e.clientX + 15}px`;
+      textEl.style.top = `${e.clientY + 15}px`;
+    }
+  </script>
 </body>
 </html>

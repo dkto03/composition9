@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ladder Up</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: url('img/comp-ladder-up.png') no-repeat center center fixed;
+            background-size: cover;
+            background-color: black;
+            margin: 0;
+            height: 100vh;
+            transition: background-image 0.3s ease;
+        }
+        
+        /* Special states when ladder is up */
+        body.door-hover {
+            background-image: url('img/comp-door-ladder-up.png') !important;
+        }
+        
+        body.trap-hover {
+            background-image: url('img/comp-trap-ladder-up.png') !important;
+        }
+        
+        /* Interactive box positions */
+        .ladder-up-box {
+            width: 15vw;
+            height: 25vh;
+            position: fixed;
+            top: 50%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .door-box {
+            width: 15vw;
+            height: 45vh;
+            top: 38vh;
+            left: 58vw;
+            transform: translateX(-50%) translateY(-50%);
+        }
+        
+        .trap-box {
+            width: 20vw;
+            height: 15vh;
+            bottom: 5vh;
+            right: 10vw;
+        }
+        
+        /* Text styles */
+        .interaction-text {
+            position: fixed;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 5px black;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        .door-text, .trap-text {
+            animation: float 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Interactive Elements -->
+    <div class="click-box ladder-up-box"
+         onmouseover="showText(event, 'climb-text')"
+         onmouseout="hideText('climb-text')"
+         onclick="window.location.href='ladder-key.html'">
+    </div>
+    
+    <div class="click-box door-box" 
+         onmouseover="showText(event, 'door-text')"
+         onmouseout="hideText('door-text')"
+         onclick="window.location.href='blue-chair.html'">
+    </div>
+
+    <div class="click-box trap-box" 
+         onmouseover="showText(event, 'trap-text')"
+         onmouseout="hideText('trap-text')"
+         onclick="window.location.href='trapdoor.html'">
+    </div>
+
+    <!-- Floating Text Elements -->
+    <div id="climb-text" class="interaction-text">CLIMB UP</div>
+    <div id="door-text" class="interaction-text door-text">ENTER</div>
+    <div id="trap-text" class="interaction-text trap-text">ENTER</div>
+
+    <script>
+        // Unified interaction system
+        function showText(e, elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.opacity = '1';
+            updateTextPosition(e, elementId);
+            document.addEventListener('mousemove', (e) => updateTextPosition(e, elementId));
+            
+            // Special background handling
+            if (elementId.includes('door')) {
+                document.body.classList.add('door-hover');
+            } else if (elementId.includes('trap')) {
+                document.body.classList.add('trap-hover');
+            }
+        }
+
+        function hideText(elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.opacity = '0';
+            document.removeEventListener('mousemove', updateTextPosition);
+            
+            if (elementId.includes('door')) {
+                document.body.classList.remove('door-hover');
+            } else if (elementId.includes('trap')) {
+                document.body.classList.remove('trap-hover');
+            }
+        }
+
+        function updateTextPosition(e, elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.left = `${e.clientX + 15}px`;
+            textEl.style.top = `${e.clientY + 15}px`;
+        }
+    </script>
+</body>
+</html>

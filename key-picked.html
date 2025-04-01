@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>key picked up</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+          background: url('img/empty.png') no-repeat center center fixed;
+          background-size: cover;
+          background-color: black;
+          margin: 0;
+          height: 100vh;
+        }
+      </style>
+</head>
+<body>
+    <div class="click-box back-box"
+         onmouseover="showBackText(event)"
+         onmouseout="hideBackText()"
+         onclick="window.location.href='up-ladder.html'">
+    </div>
+
+    <div id="back-text" class="back-text">GO BACK</div>
+    
+    <script>
+        function showBackText(e) {
+            const textEl = document.getElementById('back-text');
+            textEl.style.opacity = '1';
+            updateTextPosition(e);
+            document.addEventListener('mousemove', updateTextPosition);
+        }
+        
+        function hideBackText() {
+            const textEl = document.getElementById('back-text');
+            textEl.style.opacity = '0';
+            document.removeEventListener('mousemove', updateTextPosition);
+        }
+        
+        function updateTextPosition(e) {
+            const textEl = document.getElementById('back-text');
+            textEl.style.left = `${e.clientX + 15}px`;
+            textEl.style.top = `${e.clientY + 15}px`;
+        }
+    </script>
+
+</body>
+</html>
