@@ -27,6 +27,13 @@
         }
         
         /* Interactive box positions */
+        .click-box {
+            position: fixed;
+            cursor: pointer;
+            opacity: 0;
+            z-index: 100;
+        }
+        
         .ladder-up-box {
             width: 15vw;
             height: 25vh;
@@ -67,7 +74,7 @@
             border-radius: 20px;
         }
         
-        .door-text, .trap-text {
+        .door-text, .trap-text, .ladder-text {
             animation: float 2s infinite ease-in-out;
         }
 
@@ -91,30 +98,30 @@
     </audio>
 
     <!-- door box -->
-    <div class="click-box door-box top-center" 
+    <div class="click-box door-box" 
          onmouseover="doorHover(true)"
          onmouseout="doorHover(false)"
          onclick="window.location.href='blue-chair.html'">
     </div>
     
     <!-- trap box -->
-    <div class="click-box trap-box bottom-right" 
+    <div class="click-box trap-box" 
          onmouseover="trapHover(true)"
          onmouseout="trapHover(false)"
          onclick="window.location.href='tank.html'">
     </div>
 
     <!-- ladder box (no audio) -->
-    <div class="click-box ladder-box bottom-left"
+    <div class="click-box ladder-up-box"
          onmouseover="ladderHover(true)"
          onmouseout="ladderHover(false)"
-         onclick="window.location.href='up-ladder.html'">
+         onclick="window.location.href='ladder-key.html'">
     </div>
 
     <!-- actions -->
-    <div id="enter-door" class="enter-text door-text">ENTER</div>
-    <div id="enter-trap" class="enter-text trap-text">ENTER</div>
-    <div id="climb-text" class="enter-text ladder-text">PLACE</div>
+    <div id="enter-door" class="interaction-text door-text">ENTER</div>
+    <div id="enter-trap" class="interaction-text trap-text">ENTER</div>
+    <div id="climb-text" class="interaction-text ladder-text">CLIMB</div>
 
     <script>
         // assistance with AI
@@ -199,7 +206,5 @@
             textEl.style.top = `${e.clientY + 15}px`;
         }
     </script>
-
 </body>
-
 </html>

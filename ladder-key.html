@@ -26,11 +26,17 @@
 </head>
 
 <body class="key">
+    <!-- Audio element for the key grab sound -->
+    <audio id="grabKeySound" preload="auto">
+        <source src="audio/grab-key.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
     <!-- key box -->
     <div class="click-box key-box"
          onmouseover="showText(event, 'action-key')"
          onmouseout="hideText('action-key')"
-         onclick="window.location.href='key-picked.html'"> <!-- Change this to your next page -->
+         onclick="pickUpKey()"> <!-- Changed to call pickUpKey function -->
     </div>
 
     <!-- floating Text -->
@@ -57,8 +63,27 @@
             textEl.style.left = `${e.clientX + 15}px`;
             textEl.style.top = `${e.clientY + 15}px`;
         }
+        
+        // New function to handle key pickup with sound
+        function pickUpKey() {
+            const grabSound = document.getElementById('grabKeySound');
+            
+            // Play the sound
+            grabSound.play().catch(e => {
+                console.log("Audio play failed, trying again after user interaction");
+                // Some browsers require user interaction first
+                document.addEventListener('click', function playOnClick() {
+                    grabSound.play();
+                    document.removeEventListener('click', playOnClick);
+                }, { once: true });
+            });
+            
+            // Navigate after a small delay to let sound play
+            setTimeout(() => {
+                window.location.href = 'key-picked.html';
+            }, 300); // 300ms delay to hear the sound
+        }
     </script>
 
 </body>
-
 </html>
