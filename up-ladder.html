@@ -76,59 +76,124 @@
 </head>
 
 <body>
-    <!-- interactive elements -->
-    <div class="click-box ladder-up-box"
-         onmouseover="showText(event, 'climb-text')"
-         onmouseout="hideText('climb-text')"
-         onclick="window.location.href='ladder-key.html'">
-    </div>
-    
-    <div class="click-box door-box" 
-         onmouseover="showText(event, 'door-text')"
-         onmouseout="hideText('door-text')"
+    <!-- audio -->
+    <audio id="doorOpenSound" preload="auto">
+        <source src="audio/open-door.wav" type="audio/wav">
+        <source src="audio/open-door.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="doorCloseSound" preload="auto">
+        <source src="audio/close-door.wav" type="audio/wav">
+        <source src="audio/close-door.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="staticSound" loop preload="auto">
+        <source src="audio/static.wav" type="audio/wav">
+        <source src="audio/static.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- door box -->
+    <div class="click-box door-box top-center" 
+         onmouseover="doorHover(true)"
+         onmouseout="doorHover(false)"
          onclick="window.location.href='blue-chair.html'">
     </div>
-
-    <div class="click-box trap-box" 
-         onmouseover="showText(event, 'trap-text')"
-         onmouseout="hideText('trap-text')"
+    
+    <!-- trap box -->
+    <div class="click-box trap-box bottom-right" 
+         onmouseover="trapHover(true)"
+         onmouseout="trapHover(false)"
          onclick="window.location.href='tank.html'">
     </div>
 
+    <!-- ladder box (no audio) -->
+    <div class="click-box ladder-box bottom-left"
+         onmouseover="ladderHover(true)"
+         onmouseout="ladderHover(false)"
+         onclick="window.location.href='up-ladder.html'">
+    </div>
+
     <!-- actions -->
-    <div id="climb-text" class="interaction-text">CLIMB UP</div>
-    <div id="door-text" class="interaction-text door-text">ENTER</div>
-    <div id="trap-text" class="interaction-text trap-text">ENTER</div>
+    <div id="enter-door" class="enter-text door-text">ENTER</div>
+    <div id="enter-trap" class="enter-text trap-text">ENTER</div>
+    <div id="climb-text" class="enter-text ladder-text">PLACE</div>
 
     <script>
-        // unified interaction system
-        function showText(e, elementId) {
-            const textEl = document.getElementById(elementId);
-            textEl.style.opacity = '1';
-            updateTextPosition(e, elementId);
-            document.addEventListener('mousemove', (e) => updateTextPosition(e, elementId));
+        // assistance with AI
+        const doorOpenSound = document.getElementById('doorOpenSound');
+        const doorCloseSound = document.getElementById('doorCloseSound');
+        const staticSound = document.getElementById('staticSound');
+        
+        // start static noise (muted at first)
+        staticSound.volume = 0.3;
+        staticSound.muted = true;
+        staticSound.play().catch(e => console.log("Static sound waiting for interaction"));
+        
+        // unlock audio on first user interaction
+        function unlockAudio() {
+            staticSound.muted = false;
+            document.removeEventListener('click', unlockAudio);
+            document.removeEventListener('keydown', unlockAudio);
+        }
+        
+        document.addEventListener('click', unlockAudio);
+        document.addEventListener('keydown', unlockAudio);
+        
+        // door hover effects credits to W3 schools
+        function doorHover(isHovering) {
+            const textEl = document.getElementById('enter-door');
             
-            // Special background handling
-            if (elementId.includes('door')) {
+            if (isHovering) {
+                textEl.style.opacity = '1';
                 document.body.classList.add('door-hover');
-            } else if (elementId.includes('trap')) {
-                document.body.classList.add('trap-hover');
-            }
-        }
-
-        function hideText(elementId) {
-            const textEl = document.getElementById(elementId);
-            textEl.style.opacity = '0';
-            document.removeEventListener('mousemove', updateTextPosition);
-            
-            if (elementId.includes('door')) {
+                playSound(doorOpenSound);
+                document.addEventListener('mousemove', (e) => moveText(e, 'enter-door'));
+            } else {
+                textEl.style.opacity = '0';
                 document.body.classList.remove('door-hover');
-            } else if (elementId.includes('trap')) {
-                document.body.classList.remove('trap-hover');
+                playSound(doorCloseSound);
+                document.removeEventListener('mousemove', moveText);
             }
         }
-
-        function updateTextPosition(e, elementId) {
+        
+        // trap hover effects
+        function trapHover(isHovering) {
+            const textEl = document.getElementById('enter-trap');
+            
+            if (isHovering) {
+                textEl.style.opacity = '1';
+                document.body.classList.add('trap-hover');
+                playSound(doorOpenSound);
+                document.addEventListener('mousemove', (e) => moveText(e, 'enter-trap'));
+            } else {
+                textEl.style.opacity = '0';
+                document.body.classList.remove('trap-hover');
+                playSound(doorCloseSound);
+                document.removeEventListener('mousemove', moveText);
+            }
+        }
+        
+        // ladder hover effects (no audio)
+        function ladderHover(isHovering) {
+            const textEl = document.getElementById('climb-text');
+            
+            if (isHovering) {
+                textEl.style.opacity = '1';
+                document.addEventListener('mousemove', (e) => moveText(e, 'climb-text'));
+            } else {
+                textEl.style.opacity = '0';
+                document.removeEventListener('mousemove', moveText);
+            }
+        }
+        
+        function playSound(sound) {
+            try {
+                sound.currentTime = 0;
+                sound.play().catch(e => console.log("Sound play delayed until interaction"));
+            } catch (e) {
+                console.error("Audio error:", e);
+            }
+        }
+        
+        function moveText(e, elementId) {
             const textEl = document.getElementById(elementId);
             textEl.style.left = `${e.clientX + 15}px`;
             textEl.style.top = `${e.clientY + 15}px`;
