@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Room</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        body {
+            background: url('img/tank.png') no-repeat center center fixed;
+            background-size: cover;
+            background-color: black;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <audio id="drippingWater" loop>
+        <source src="audio/dripping-water.wav" type="audio/wav">
+        <source src="audio/dripping-water.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="staticSound" loop>
+        <source src="audio/static.wav" type="audio/wav">
+        <source src="audio/static.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="keyUnlockSound">
+        <source src="audio/key-unlock.wav" type="audio/wav">
+        <source src="audio/key-unlock.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- unlock door -->
+    <div class="click-box unlock-box"
+         onmouseover="showText(event, 'unlock-text')"
+         onmouseout="hideText('unlock-text')"
+         onclick="unlockDoor()">
+    </div>
+
+    <!-- meatsleep tank -->
+    <div class="click-box meatsleep-box"
+         onmouseover="showText(event, 'meatsleep-text')"
+         onmouseout="hideText('meatsleep-text')"
+         onclick="examineMeatsleep()">
+    </div>
+    
+        <!-- actions -->
+        <div id="unlock-text" class="action-text">UNLOCK</div>
+        <div id="meatsleep-text" class="action-text">INSPECT</div>
+        <div id="climb-text" class="action-text">CLIMB UP</div>
+
+        <div class="click-box climb-box"
+            onmouseover="showText(event, 'climb-text')"
+            onmouseout="hideText('climb-text')"
+            onclick="window.location.href='basement.html'">
+        </div>
+
+    <script>
+        const drippingWater = document.getElementById('drippingWater');
+        const staticSound = document.getElementById('staticSound');
+        const keyUnlockSound = document.getElementById('keyUnlockSound');
+        
+        // start ambient sounds automatically
+        window.addEventListener('load', () => {
+            const silentSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
+            silentSound.volume = 0;
+            silentSound.play().then(() => {
+                drippingWater.volume = 0.3;
+                staticSound.volume = 0.2;
+                drippingWater.play().catch(e => console.error("Dripping water error:", e));
+                staticSound.play().catch(e => console.error("Static error:", e));
+            });
+        });
+
+        // unlock sequence
+        function unlockDoor() {
+            keyUnlockSound.currentTime = 0;
+            keyUnlockSound.volume = 1.0;
+            keyUnlockSound.play();
+            hideText('unlock-text');
+            setTimeout(() => {
+                window.location.href = 'args.html';
+            }, 4000);
+        }
+
+        function examineMeatsleep() {
+            if (confirm("Examine the tank closely?")) {
+                window.location.href = 'https://www.youtube.com/watch?v=f-FUGh4TJtQ&ab_channel=MeatSleep';
+            }
+        }
+
+        // show hover text
+        function showText(e, elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.opacity = '1';
+            updateTextPosition(e, elementId);
+            document.addEventListener('mousemove', (e) => updateTextPosition(e, elementId));
+        }
+
+        // hide hover text
+        function hideText(elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.opacity = '0';
+            document.removeEventListener('mousemove', updateTextPosition);
+        }
+
+        // update text position
+        function updateTextPosition(e, elementId) {
+            const textEl = document.getElementById(elementId);
+            textEl.style.left = `${e.clientX + 15}px`;
+            textEl.style.top = `${e.clientY + 15}px`;
+        }
+    </script>
+
+</body>
+
+</html>

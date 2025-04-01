@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ladder Key</title>
     <link rel="stylesheet" href="style.css">
+    
     <style>
         body {
             background: url('img/comp-ladder-key.png') no-repeat center center fixed;
@@ -21,20 +22,22 @@
             transform: translate(-50%, -50%);
         }
     </style>
+
 </head>
 
 <body class="key">
-    <!-- Key Box -->
+    <!-- key box -->
     <div class="click-box key-box"
          onmouseover="showText(event, 'action-key')"
          onmouseout="hideText('action-key')"
          onclick="window.location.href='key-picked.html'"> <!-- Change this to your next page -->
     </div>
 
-    <!-- Floating Text -->
+    <!-- floating Text -->
     <div id="action-key" class="action-text key-text">PICK UP</div>
 
     <script>
+        // assistance with AI
         function showText(e, elementId) {
             const textEl = document.getElementById(elementId);
             textEl.style.opacity = '1';
@@ -55,5 +58,7 @@
             textEl.style.top = `${e.clientY + 15}px`;
         }
     </script>
+
 </body>
+
 </html>

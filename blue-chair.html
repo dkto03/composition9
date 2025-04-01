@@ -14,7 +14,7 @@
       overflow: hidden;
     }
     
-    /* Blinking effect styles - only applied after first visit */
+    /* Blinking overlay */
     .blinking-screen {
       position: fixed;
       top: 0;
@@ -25,6 +25,10 @@
       opacity: 0;
       pointer-events: none;
       z-index: 10000;
+    }
+    
+    .blinking-effect {
+      animation: creepy-blink 1.2s infinite;
     }
     
     @keyframes creepy-blink {
@@ -40,12 +44,31 @@
       90% { opacity: 0.7; }
     }
     
-    .blinking-effect {
-      animation: creepy-blink 1.5s infinite;
+    /* Interactive boxes */
+    .click-box {
+      position: fixed;
+      cursor: pointer;
+      opacity: 0;
+      z-index: 100;
     }
     
-    /* Back text style */
-    .back-text {
+    .back-box {
+      width: 15vw;
+      height: 20vh;
+      bottom: 10vh;
+      left: 10vw;
+    }
+    
+    .inspect-box {
+      width: 20vw;
+      height: 30vh;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    /* Action text */
+    .action-text {
       position: fixed;
       color: white;
       font-family: 'Courier New', monospace;
@@ -55,26 +78,39 @@
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.2s ease;
-      z-index: 10001; /* Above blinking effect */
+      z-index: 1000;
+      padding: 5px 15px;
+      border-radius: 20px;
     }
   </style>
 </head>
 <body>
-  <!-- Blinking overlay (only shown after first visit) -->
+  <!-- Blinking overlay -->
   <div id="blinking-overlay" class="blinking-screen"></div>
 
-  <!-- Invisible Click Boxes -->
-  <div class="click-box top-left" onclick="window.location.href='blue-chair.html'"></div>
-  <div class="click-box bottom-right" onclick="window.location.href='basement.html'"></div>
-
+  <!-- Interactive Boxes -->
   <div class="click-box back-box"
-       onmouseover="showBackText(event)"
-       onmouseout="hideBackText()"
+       onmouseover="showText(event, 'back-text')"
+       onmouseout="hideText('back-text')"
        onclick="window.location.href='up-ladder.html'">
   </div>
+  
+  <div class="click-box inspect-box"
+       onmouseover="showText(event, 'inspect-text')"
+       onmouseout="hideText('inspect-text')"
+       onclick="inspectChair()">
+  </div>
 
-  <div id="back-text" class="back-text">GO BACK</div>
-    
+  <!-- Floating Texts -->
+  <div id="back-text" class="action-text">GO BACK</div>
+  <div id="inspect-text" class="action-text">INSPECT</div>
+
+  <!-- Audio Elements -->
+  <audio id="staticSound" loop>
+    <source src="audio/flickering-light.wav" type="audio/wav">
+    <source src="audio/flickering-light.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     // Check visit count
     let visitCount = localStorage.getItem('blueChairVisits') || 0;
@@ -97,22 +133,40 @@
       }, 3000);
     }
 
-    // Mouse-following text functions
-    function showBackText(e) {
-      const textEl = document.getElementById('back-text');
+    // Start ambient sound
+    window.addEventListener('load', () => {
+      const silentSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
+      silentSound.volume = 0;
+      silentSound.play().then(() => {
+        const staticSound = document.getElementById('staticSound');
+        staticSound.volume = 0.2;
+        staticSound.play().catch(e => console.error("Static error:", e));
+      });
+    });
+
+    // Inspect chair function
+    function inspectChair() {
+      if (confirm("Examine the blue chair closely?")) {
+        window.location.href = 'https://www.youtube.com/watch?v=u0GPQpAbTyw&ab_channel=alantutorial';
+      }
+    }
+
+    // Text display functions
+    function showText(e, elementId) {
+      const textEl = document.getElementById(elementId);
       textEl.style.opacity = '1';
-      updateTextPosition(e);
-      document.addEventListener('mousemove', updateTextPosition);
+      updateTextPosition(e, elementId);
+      document.addEventListener('mousemove', (e) => updateTextPosition(e, elementId));
     }
     
-    function hideBackText() {
-      const textEl = document.getElementById('back-text');
+    function hideText(elementId) {
+      const textEl = document.getElementById(elementId);
       textEl.style.opacity = '0';
       document.removeEventListener('mousemove', updateTextPosition);
     }
     
-    function updateTextPosition(e) {
-      const textEl = document.getElementById('back-text');
+    function updateTextPosition(e, elementId) {
+      const textEl = document.getElementById(elementId);
       textEl.style.left = `${e.clientX + 15}px`;
       textEl.style.top = `${e.clientY + 15}px`;
     }

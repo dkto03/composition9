@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Desktop</title>
   <link rel="stylesheet" href="style.css">
+
   <style>
     body {
       background: url('img/background.jpeg') no-repeat center center fixed;
@@ -14,40 +15,13 @@
       overflow: hidden; /* Prevents scrollbars during dragging */
       user-select: none; /* Prevents text selection while dragging */
     }
-    
-    .app {
-      position: absolute;
-      width: 105px;
-      height: 50px;
-      cursor: grab;
-      text-align: center;
-      transition: transform 0.1s;
-    }
-    
-    .app:active {
-      cursor: grabbing;
-      transform: scale(1.05);
-    }
-    
-    .app img {
-      width: 55px;
-      height: 50px;
-      pointer-events: none; /* Makes dragging smoother */
-    }
-    
-    .app-label {
-      color: white;
-      text-shadow: 1px 1px 3px black;
-      font-size: 12px;
-      margin-top: 2px;
-      pointer-events: none;
-    }
   </style>
+
 </head>
 
 <body>
 
-  <!-- Draggable Apps -->
+  <!-- draggable apps, assistance with AI-->
   <div class="app" style="left: 5px; top: 40px;">
     <img src="img/internet-icon.png" alt="App 1">
     <div class="app-label">earth explorer</div>
@@ -78,7 +52,7 @@
     <div class="app-label">document</div>
   </div>
 
-  <!-- Nav Bar -->
+  <!-- nac=v bar -->
   <div class="nav-bar" id="nav-bar">
     <div class="nav-tabs" id="nav-tabs">
       <img src="img/terminal.png" alt="terminal in navigation bar" height="35px">
@@ -91,13 +65,13 @@
   </div>
   
 
-  <!-- Notification -->
+  <!-- notification -->
   <div class="notification" id="notification">
     <a href="email.html"><img src="img/mail-notif.png" alt="New Email"></a>
   </div>
 
   <script>
-    // Make apps draggable
+    // make apps draggable with assitance from AI
     document.querySelectorAll('.app').forEach(app => {
       let offsetX, offsetY;
       
@@ -123,7 +97,6 @@
       });
     });
 
-    // Notification (existing code)
     setTimeout(() => {
       document.getElementById('notification').style.display = 'block';
     }, 3000);

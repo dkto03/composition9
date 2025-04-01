@@ -95,7 +95,6 @@ body {
   cursor: grab;
   text-align: center;
   transition: transform 0.1s;
-  user-select: none;
 }
 
 .app:active {
@@ -106,6 +105,14 @@ body {
 .app img {
   width: 55px;
   height: 50px;
+  pointer-events: none; /* Makes dragging smoother */
+}
+
+.app-label {
+  color: white;
+  text-shadow: 1px 1px 3px black;
+  font-size: 12px;
+  margin-top: 2px;
   pointer-events: none;
 }
 
@@ -387,6 +394,8 @@ body {
   z-index: 1000;
 }
 
+/* ===== BLUE CHAIR ===== */
+
 .back-box {
   width: 20vw;
   height: 15vh;
@@ -407,4 +416,116 @@ body {
   opacity: 0;
   transition: opacity 0.2s ease;
   z-index: 1000;
+}
+
+    /* Blinking effect styles - only applied after first visit */
+    .blinking-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10000;
+    }
+    
+    @keyframes creepy-blink {
+      0%, 100% { opacity: 0; }
+      10% { opacity: 0.8; }
+      20% { opacity: 0; }
+      30% { opacity: 0.6; }
+      40% { opacity: 0; }
+      50% { opacity: 0.9; }
+      60% { opacity: 0; }
+      70% { opacity: 0.4; }
+      80% { opacity: 0; }
+      90% { opacity: 0.7; }
+    }
+    
+    .blinking-effect {
+      animation: creepy-blink 1.5s infinite;
+    }
+    
+    /* Back text style */
+    .back-text {
+      position: fixed;
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: 0 0 5px black;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 10001; /* Above blinking effect */
+    }
+
+/* ===== TANK ===== */
+
+.click-box {
+  position: fixed;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 100;
+}
+
+/* Unlock box */
+.unlock-box {
+  width: 15vw;
+  height: 20vh;
+  bottom: 15vh;
+  left: 10vw;
+}
+
+.meatsleep-box {
+  width: 45vw;
+  height: 45vh;
+  bottom: 25vh;
+  right: 0vw;
+}
+
+.climb-box {
+  width: 15vw;
+  height: 80vh;
+  top: 0vh;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+/* Action text */
+.action-text {
+  position: fixed;
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 0 0 5px black;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+/* ===== ARGS ===== */
+
+.args {
+  background: #000000;
+  text-align: center;
+  align-content: center;
+  font-size: large;
+  padding-bottom: 5%;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(255, 0, 0);
+}
+
+a:hover {
+  color:rgba(255, 0, 0, 0.424);
 }

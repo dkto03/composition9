@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basement</title>
     <link rel="stylesheet" href="style.css">
+
     <style>
+
         body {
             background: url('img/comp-home.png') no-repeat center center fixed;
             background-size: cover;
             transition: background-image 0.3s ease;
             background-color: black;
+            margin: 0;
+            height: 100vh;
         }
         
+        /* taken from W3 schools exercise with CSS hover Psuedo */
         body.door-hover {
             background-image: url('img/comp-door-open.png') !important;
         }
@@ -20,74 +25,73 @@
         body.trap-hover {
             background-image: url('img/comp-trap-open.png') !important;
         }
-        
     </style>
+
 </head>
 
 <body>
-    <!-- Audio Elements -->
+    <!-- audio -->
     <audio id="doorOpenSound" preload="auto">
         <source src="audio/open-door.wav" type="audio/wav">
+        <source src="audio/open-door.mp3" type="audio/mpeg">
     </audio>
     <audio id="doorCloseSound" preload="auto">
         <source src="audio/close-door.wav" type="audio/wav">
+        <source src="audio/close-door.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="staticSound" loop preload="auto">
+        <source src="audio/static.wav" type="audio/wav">
+        <source src="audio/static.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Door Box -->
+    <!-- door box -->
     <div class="click-box door-box top-center" 
          onmouseover="doorHover(true)"
          onmouseout="doorHover(false)"
          onclick="window.location.href='blue-chair.html'">
     </div>
     
-    <!-- Trap Box -->
+    <!-- trap box -->
     <div class="click-box trap-box bottom-right" 
          onmouseover="trapHover(true)"
          onmouseout="trapHover(false)"
-         onclick="window.location.href='trapdoor.html'">
+         onclick="window.location.href='tank.html'">
     </div>
 
-    <!-- Floating ENTER texts -->
+    <!-- ladder box (no audio) -->
+    <div class="click-box ladder-box bottom-left"
+         onmouseover="ladderHover(true)"
+         onmouseout="ladderHover(false)"
+         onclick="window.location.href='up-ladder.html'">
+    </div>
+
+    <!-- actions -->
     <div id="enter-door" class="enter-text door-text">ENTER</div>
     <div id="enter-trap" class="enter-text trap-text">ENTER</div>
+    <div id="climb-text" class="enter-text ladder-text">CLIMB</div>
 
     <script>
-        // Audio elements
+        // assistance with AI
         const doorOpenSound = document.getElementById('doorOpenSound');
         const doorCloseSound = document.getElementById('doorCloseSound');
-        const audioEnableBtn = document.getElementById('audioEnableBtn');
+        const staticSound = document.getElementById('staticSound');
         
-        // Audio state
-        let audioEnabled = false;
+        // start static noise (muted at first)
+        staticSound.volume = 0.3;
+        staticSound.muted = true;
+        staticSound.play().catch(e => console.log("Static sound waiting for interaction"));
         
-        // Enable audio on button click
-        audioEnableBtn.addEventListener('click', () => {
-            // Play silent audio to unlock sound
-            const silentSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
-            silentSound.volume = 0;
-            silentSound.play().then(() => {
-                audioEnabled = true;
-                audioEnableBtn.style.display = 'none';
-            });
-        });
-        
-        // Play sound safely
-        function playSound(sound) {
-            if (!audioEnabled) return;
-            
-            try {
-                sound.currentTime = 0;
-                sound.play().catch(e => {
-                    console.warn("Audio play failed:", e);
-                    audioEnableBtn.style.display = 'block';
-                    audioEnableBtn.textContent = '🔇 Click to Enable Sound';
-                });
-            } catch (e) {
-                console.error("Audio error:", e);
-            }
+        // unlock audio on first user interaction
+        function unlockAudio() {
+            staticSound.muted = false;
+            document.removeEventListener('click', unlockAudio);
+            document.removeEventListener('keydown', unlockAudio);
         }
         
-        // Door hover effects
+        document.addEventListener('click', unlockAudio);
+        document.addEventListener('keydown', unlockAudio);
+        
+        // door hover effects credits to W3 schools
         function doorHover(isHovering) {
             const textEl = document.getElementById('enter-door');
             
@@ -104,7 +108,7 @@
             }
         }
         
-        // Trap hover effects
+        // trap hover effects
         function trapHover(isHovering) {
             const textEl = document.getElementById('enter-trap');
             
@@ -121,11 +125,35 @@
             }
         }
         
+        // ladder hover effects (no audio)
+        function ladderHover(isHovering) {
+            const textEl = document.getElementById('climb-text');
+            
+            if (isHovering) {
+                textEl.style.opacity = '1';
+                document.addEventListener('mousemove', (e) => moveText(e, 'climb-text'));
+            } else {
+                textEl.style.opacity = '0';
+                document.removeEventListener('mousemove', moveText);
+            }
+        }
+        
+        function playSound(sound) {
+            try {
+                sound.currentTime = 0;
+                sound.play().catch(e => console.log("Sound play delayed until interaction"));
+            } catch (e) {
+                console.error("Audio error:", e);
+            }
+        }
+        
         function moveText(e, elementId) {
             const textEl = document.getElementById(elementId);
             textEl.style.left = `${e.clientX + 15}px`;
             textEl.style.top = `${e.clientY + 15}px`;
         }
     </script>
+
 </body>
+
 </html>
