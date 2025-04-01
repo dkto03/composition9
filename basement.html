@@ -20,12 +20,18 @@
         body.trap-hover {
             background-image: url('img/comp-trap-open.png') !important;
         }
+        
     </style>
 </head>
+
 <body>
-    <!-- Hidden Audio Elements -->
-    <audio id="doorOpenSound" src="audio/open-door.wav" preload="auto"></audio>
-    <audio id="doorCloseSound" src="audio/close-door.wav" preload="auto"></audio>
+    <!-- Audio Elements -->
+    <audio id="doorOpenSound" preload="auto">
+        <source src="audio/open-door.wav" type="audio/wav">
+    </audio>
+    <audio id="doorCloseSound" preload="auto">
+        <source src="audio/close-door.wav" type="audio/wav">
+    </audio>
 
     <!-- Door Box -->
     <div class="click-box door-box top-center" 
@@ -49,47 +55,68 @@
         // Audio elements
         const doorOpenSound = document.getElementById('doorOpenSound');
         const doorCloseSound = document.getElementById('doorCloseSound');
+        const audioEnableBtn = document.getElementById('audioEnableBtn');
+        
+        // Audio state
+        let audioEnabled = false;
+        
+        // Enable audio on button click
+        audioEnableBtn.addEventListener('click', () => {
+            // Play silent audio to unlock sound
+            const silentSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
+            silentSound.volume = 0;
+            silentSound.play().then(() => {
+                audioEnabled = true;
+                audioEnableBtn.style.display = 'none';
+            });
+        });
+        
+        // Play sound safely
+        function playSound(sound) {
+            if (!audioEnabled) return;
+            
+            try {
+                sound.currentTime = 0;
+                sound.play().catch(e => {
+                    console.warn("Audio play failed:", e);
+                    audioEnableBtn.style.display = 'block';
+                    audioEnableBtn.textContent = '🔇 Click to Enable Sound';
+                });
+            } catch (e) {
+                console.error("Audio error:", e);
+            }
+        }
         
         // Door hover effects
         function doorHover(isHovering) {
             const textEl = document.getElementById('enter-door');
             
             if (isHovering) {
-                // Show text and play open sound
                 textEl.style.opacity = '1';
                 document.body.classList.add('door-hover');
-                doorOpenSound.currentTime = 0; // Rewind sound
-                doorOpenSound.play();
-                
-                // Track mouse movement
+                playSound(doorOpenSound);
                 document.addEventListener('mousemove', (e) => moveText(e, 'enter-door'));
             } else {
-                // Hide text and play close sound
                 textEl.style.opacity = '0';
                 document.body.classList.remove('door-hover');
-                doorCloseSound.currentTime = 0; // Rewind sound
-                doorCloseSound.play();
-                
-                // Stop tracking mouse
+                playSound(doorCloseSound);
                 document.removeEventListener('mousemove', moveText);
             }
         }
         
-        // Trap hover effects (same as door but with trap sounds)
+        // Trap hover effects
         function trapHover(isHovering) {
             const textEl = document.getElementById('enter-trap');
             
             if (isHovering) {
                 textEl.style.opacity = '1';
                 document.body.classList.add('trap-hover');
-                doorOpenSound.currentTime = 0;
-                doorOpenSound.play();
+                playSound(doorOpenSound);
                 document.addEventListener('mousemove', (e) => moveText(e, 'enter-trap'));
             } else {
                 textEl.style.opacity = '0';
                 document.body.classList.remove('trap-hover');
-                doorCloseSound.currentTime = 0;
-                doorCloseSound.play();
+                playSound(doorCloseSound);
                 document.removeEventListener('mousemove', moveText);
             }
         }
